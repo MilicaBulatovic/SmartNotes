@@ -1,0 +1,82 @@
+<div class="centered-content">
+  <div class="smart-notes-container">
+
+    <div class="sidebar has-background-white">
+      <h1 class="title has-text-primary">
+        Lists
+      </h1>
+
+      <div class="list-menu">
+        <a class="list-menu-item" *ngFor="let list of lists" [routerLink]="['/lists', list._id]" routerLinkActive="is-active">
+          <p>{{ list.title }}</p>
+        </a>
+
+      </div>
+
+      <button class="button is-primary has-text-white" routerLink="/new-list">+ New List</button>
+
+    </div>
+
+    <div class="note-list-container has-background-light">
+      <div *ngIf="notes">
+        <div class="top-bar">
+          <h1 class="title has-text-primary">
+            Notes
+          </h1>
+          <div class="dropdown is-hoverable is-right">
+            <div class="dropdown-trigger">
+              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                <span class="icon is-small">
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+              <div class="dropdown-content">
+               <a [routerLink]="['/edit-list', selectedListId]" class="dropdown-item"> Edit
+                </a>
+                  
+               <a (click)="onDeleteListClick()" class="dropdown-item has-text-danger">  Delete
+                </a> 
+          
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note Elements -->
+        <div class="note" *ngFor="let note of notes" (click)="onNoteClick(note)" [ngClass]="{ 'completed': note.completed }">
+          <div class="note-text">
+            <p>{{ note.title }}</p>
+          </div>
+          <div class="note-buttons">
+
+           <button class="button" [routerLink]="['/lists', selectedListId, 'edit-note', note._id]">
+           <div class="icon">
+                <i class="fas fa-edit"></i>
+              </div>
+            </button>  
+
+             <button class="button is-danger" (click)="onDeleteNoteClick(note._id)" style="margin-left: 10px;">
+              <div class="icon">
+                <i class="fas fa-trash"></i>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <h3 class="empty-state-text" *ngIf="notes.length === 0">There are no notes here! Click the add button to create
+          a new note.</h3>
+
+        <button routerLink="./new-note" class="circle-add-button button is-primary">+</button>
+      </div>
+
+      <div *ngIf="!notes">
+        <h3 class="empty-state-text">Please select a list from the sidebar</h3>
+      </div>
+
+    </div>
+
+  </div>
+</div>
